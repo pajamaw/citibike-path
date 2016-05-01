@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html ng-app="demoapp">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="/app/bower_components/angular/angular.min.js"></script>
+    <script src="http://maps.google.com/maps/api/js?v=3&sensor=false"></script>
+
+    <script src="/app/bower_components/leaflet/dist/leaflet.js"></script>
+    <script src="/app/bower_components/angular-leaflet-directive/dist/angular-leaflet-directive.min.js"></script>
+    <script src="/app/bower_components/leaflet-plugins/layer/tile/Google.js"></script>
+
+    <link rel="stylesheet" href="/app/bower_components/leaflet/dist/leaflet.css" />
+    
+
+    <script>
+        var app = angular.module("demoapp", ['leaflet-directive']);
+        app.controller("MainController", [ "$scope", function($scope) {
+            angular.extend($scope,{
+              nyc: {
+                lat: 40.758896,
+                lng: -73.985130,
+                zoom: 12
+              },
+              layers: {
+                    baselayers: {
+                        googleTerrain: {
+                            name: 'Google Terrain',
+                            layerType: 'TERRAIN',
+                            type: 'google'
+                        },
+                        googleHybrid: {
+                          name: 'Google Hybrid',
+                          layerType: 'HYBRID',
+                          type: 'google'
+                      },
+                        googleRoadmap: {
+                            name: 'Google Streets',
+                            layerType: 'ROADMAP',
+                            type: 'google'
+                        }
+                    }
+                }
+            });
+        }]);
+    </script>
+  </head>
+
+    <body ng-controller="MainController">
+     <leaflet lf-center="nyc" layers="layers" width="100%" height="480px"></leaflet>
+     <h1>NYC</h1>
+     <ul>
+         <li><input type="number" step="any" ng-model="nyc.lat" /> Latitude</li>
+         <li><input type="number" step="any" ng-model="nyc.lng" /> Longitude</li>
+         <li><input type="number" step="any" ng-model="nyc.zoom" /> Zoom</li>
+     </ul>
+  </body>
+</html>
+
+http://api.citybik.es/citi-bike-nyc.json
+
+id: CityBikes station id
+name: Station name
+lat: Latitude in E6 format
+lng: Longitude in E6 format
+bikes: Number of bikes in the station
+free: Number of free slots
+timestamp: The last time the station has been updated
